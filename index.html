@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="ja" data-source="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Smart Ape Games</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700&family=Noto+Sans+JP:wght@400;700&family=Noto+Sans+SC:wght@400;700&family=Noto+Sans+TC:wght@400;700&family=Noto+Sans+KR:wght@400;700&family=Noto+Sans+Thai:wght@400;700&display=swap">
+<style>
+:root{--ground:#f7f7f4;--paper:#fff;--ink:#1b1d22;--muted:#6b6f78;--rule:#e1e2dd;--accent:#1c5f7a;--accent-ink:#164d63;--example:#eef5f8;--example-rule:#c9dde6;--pill:#ecece8;--shadow:0 1px 2px rgba(20,20,30,.08),0 8px 24px rgba(20,20,30,.06)}
+@media(prefers-color-scheme:dark){:root{--ground:#141518;--paper:#1d1f24;--ink:#e9e9e4;--muted:#9a9ea8;--rule:#30333a;--accent:#5fb3d3;--accent-ink:#8fcbe2;--example:#1f2a30;--example-rule:#2f4550;--pill:#2a2d33;--shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px rgba(0,0,0,.35)}}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--ground);color:var(--ink);font-family:"Noto Sans JP","Noto Sans","Hiragino Sans","Yu Gothic",system-ui,sans-serif;font-size:16px;line-height:1.8}
+[lang="en"],[lang^="de"],[lang^="fr"],[lang^="es"],[lang^="it"],[lang^="pt"],[lang^="nl"],[lang^="pl"],[lang^="cs"],[lang^="hu"],[lang^="ru"],[lang="vi"],[lang="id"]{font-family:"Noto Sans",system-ui,-apple-system,"Segoe UI",sans-serif;line-height:1.65}
+[lang="zh-Hant"]{font-family:"Noto Sans TC","PingFang TC",system-ui,sans-serif}
+[lang="zh-Hans"]{font-family:"Noto Sans SC","PingFang SC",system-ui,sans-serif}
+[lang="ko"]{font-family:"Noto Sans KR","Apple SD Gothic Neo",system-ui,sans-serif}
+[lang="th"]{font-family:"Noto Sans Thai",system-ui,sans-serif;line-height:1.9}
+.bar{position:fixed;top:0;left:0;right:0;z-index:5;background:var(--paper);border-bottom:1px solid var(--rule);padding:10px 16px;padding-top:calc(10px + env(safe-area-inset-top,0px));display:flex;align-items:center;gap:12px;min-height:56px}
+body{padding-top:calc(56px + env(safe-area-inset-top,0px))}
+.bar .name{font-weight:700;font-size:17px;margin-right:auto;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bar-actions{display:flex;gap:8px;flex:none}
+.dd{position:relative}
+.dd>button{font:inherit;font-size:14px;line-height:1;padding:9px 12px;border-radius:8px;border:1px solid var(--rule);background:var(--paper);color:var(--ink);cursor:pointer;display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
+.dd>button::after{content:"";width:7px;height:7px;border-right:1.5px solid currentColor;border-bottom:1.5px solid currentColor;transform:translateY(-2px) rotate(45deg)}
+.dd>button[aria-expanded="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.dd>button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.dd-menu{position:absolute;top:calc(100% + 6px);right:0;min-width:220px;max-width:calc(100vw - 32px);background:var(--paper);border:1px solid var(--rule);border-radius:10px;box-shadow:var(--shadow);padding:6px;z-index:6;max-height:70vh;overflow:auto}
+.dd-menu[hidden]{display:none}
+.dd-menu button{display:block;width:100%;text-align:left;font:inherit;font-size:15px;line-height:1.4;padding:10px 12px;border:0;border-radius:6px;background:transparent;color:var(--ink);cursor:pointer}
+.dd-menu button:hover,.dd-menu button:focus-visible{background:var(--pill);outline:none}
+.dd-menu button[aria-current="true"]{color:var(--accent-ink);font-weight:700}
+.dd-menu button[aria-current="true"]::before{content:"✓ "}
+
+main{max-width:960px;margin:0 auto;padding:16px 16px 72px}
+h1{font-size:22px;margin:8px 0 16px;color:var(--accent)}
+h1[hidden]{display:none}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px;list-style:none;margin:0;padding:0}
+.card{display:flex;flex-direction:column;background:var(--paper);border:1px solid var(--rule);border-radius:12px;overflow:hidden;box-shadow:var(--shadow);color:inherit;text-decoration:none;transition:transform .12s ease}
+.card:hover{transform:translateY(-2px)}
+.card:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.card-cover{display:block;width:100%;aspect-ratio:1/1;object-fit:cover;background:var(--pill)}
+.card-cover-empty{aspect-ratio:1/1}
+.card-body{display:flex;flex-direction:column;gap:8px;padding:14px 16px 16px}
+.card-title{display:flex;flex-direction:column;gap:2px}
+.card-title[hidden]{display:none}
+.card-title small{font-size:12px;color:var(--muted);letter-spacing:.06em}
+.card-title b{font-size:22px;line-height:1.2}
+.card-meta{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
+.card-meta span{background:var(--pill);border-radius:6px;padding:2px 8px;font-size:12px;font-variant-numeric:tabular-nums}
+.card-langs{display:flex;gap:4px;flex-wrap:wrap;margin-top:auto;padding-top:6px;border-top:1px solid var(--rule)}
+.card-langs span{font-size:11px;color:var(--muted);line-height:1.4}
+.card-langs span[aria-current="true"]{color:var(--accent-ink);font-weight:700}
+.empty{color:var(--muted)}
+@media print{.bar{display:none}}
+</style>
+</head>
+<body>
+<div class="bar">
+  <span class="name">Smart Ape Games</span>
+  <div class="bar-actions">
+    <div class="dd"><button type="button" id="btn-lang" aria-haspopup="true" aria-expanded="false" aria-controls="menu-lang">Language</button><div class="dd-menu" id="menu-lang" role="menu" hidden><button type="button" role="menuitemradio" data-lang="ja" lang="ja">日本語</button><button type="button" role="menuitemradio" data-lang="en" lang="en">English</button><button type="button" role="menuitemradio" data-lang="zh-Hans" lang="zh-Hans">简体中文</button><button type="button" role="menuitemradio" data-lang="zh-Hant" lang="zh-Hant">繁體中文</button><button type="button" role="menuitemradio" data-lang="ko" lang="ko">한국어</button><button type="button" role="menuitemradio" data-lang="de" lang="de">Deutsch</button><button type="button" role="menuitemradio" data-lang="fr" lang="fr">Français</button><button type="button" role="menuitemradio" data-lang="es" lang="es">Español</button><button type="button" role="menuitemradio" data-lang="it" lang="it">Italiano</button><button type="button" role="menuitemradio" data-lang="pt-BR" lang="pt-BR">Português (Brasil)</button><button type="button" role="menuitemradio" data-lang="nl" lang="nl">Nederlands</button><button type="button" role="menuitemradio" data-lang="pl" lang="pl">Polski</button><button type="button" role="menuitemradio" data-lang="cs" lang="cs">Čeština</button><button type="button" role="menuitemradio" data-lang="hu" lang="hu">Magyar</button><button type="button" role="menuitemradio" data-lang="ru" lang="ru">Русский</button><button type="button" role="menuitemradio" data-lang="th" lang="th">ไทย</button><button type="button" role="menuitemradio" data-lang="vi" lang="vi">Tiếng Việt</button><button type="button" role="menuitemradio" data-lang="id" lang="id">Bahasa Indonesia</button></div></div>
+  </div>
+</div>
+<main>
+<h1 data-lang="ja" lang="ja" hidden>説明書</h1><h1 data-lang="en" lang="en" hidden>Rulebooks</h1><h1 data-lang="zh-Hans" lang="zh-Hans" hidden>说明书</h1><h1 data-lang="zh-Hant" lang="zh-Hant" hidden>說明書</h1><h1 data-lang="ko" lang="ko" hidden>설명서</h1><h1 data-lang="de" lang="de" hidden>Spielregeln</h1><h1 data-lang="fr" lang="fr" hidden>Règles du jeu</h1><h1 data-lang="es" lang="es" hidden>Reglamentos</h1><h1 data-lang="it" lang="it" hidden>Regolamenti</h1><h1 data-lang="pt-BR" lang="pt-BR" hidden>Regras</h1><h1 data-lang="nl" lang="nl" hidden>Spelregels</h1><h1 data-lang="pl" lang="pl" hidden>Instrukcje</h1><h1 data-lang="cs" lang="cs" hidden>Pravidla</h1><h1 data-lang="hu" lang="hu" hidden>Játékszabályok</h1><h1 data-lang="ru" lang="ru" hidden>Правила</h1><h1 data-lang="th" lang="th" hidden>คู่มือ</h1><h1 data-lang="vi" lang="vi" hidden>Hướng dẫn</h1><h1 data-lang="id" lang="id" hidden>Buku aturan</h1>
+<div class="cards"><a class="card" href="icefall/" data-slug="icefall" data-source="ja"><img class="card-cover" src="icefall/figures/cover.jpg" alt="" loading="lazy"><span class="card-body"><span class="card-title" data-lang="ja" lang="ja" hidden><small>アイスフォール</small><b>ICEFALL</b><span class="card-meta"><span>人数：3〜5人</span></span></span><span class="card-title" data-lang="en" lang="en" hidden><b>ICEFALL</b><span class="card-meta"><span>Players: 3–5</span></span></span><span class="card-title" data-lang="de" lang="de" hidden><b>ICEFALL</b><span class="card-meta"><span>Spieler: 3–5</span></span></span><span class="card-title" data-lang="fr" lang="fr" hidden><b>ICEFALL</b><span class="card-meta"><span>Joueurs : 3–5</span></span></span><span class="card-title" data-lang="es" lang="es" hidden><b>ICEFALL</b><span class="card-meta"><span>Jugadores: 3–5</span></span></span><span class="card-title" data-lang="it" lang="it" hidden><b>ICEFALL</b><span class="card-meta"><span>Giocatori: 3–5</span></span></span><span class="card-title" data-lang="zh-Hant" lang="zh-Hant" hidden><b>ICEFALL</b><span class="card-meta"><span>人數：3～5 人</span></span></span><span class="card-title" data-lang="zh-Hans" lang="zh-Hans" hidden><b>ICEFALL</b><span class="card-meta"><span>人数：3～5 人</span></span></span><span class="card-title" data-lang="ko" lang="ko" hidden><b>ICEFALL</b><span class="card-meta"><span>인원: 3~5명</span></span></span><span class="card-title" data-lang="nl" lang="nl" hidden><b>ICEFALL</b><span class="card-meta"><span>Spelers: 3–5</span></span></span><span class="card-title" data-lang="pl" lang="pl" hidden><b>ICEFALL</b><span class="card-meta"><span>Gracze: 3–5</span></span></span><span class="card-title" data-lang="pt-BR" lang="pt-BR" hidden><b>ICEFALL</b><span class="card-meta"><span>Jogadores: 3–5</span></span></span><span class="card-title" data-lang="ru" lang="ru" hidden><b>ICEFALL</b><span class="card-meta"><span>Игроки: 3–5</span></span></span><span class="card-title" data-lang="cs" lang="cs" hidden><b>ICEFALL</b><span class="card-meta"><span>Hráči: 3–5</span></span></span><span class="card-title" data-lang="hu" lang="hu" hidden><b>ICEFALL</b><span class="card-meta"><span>Játékosok: 3–5</span></span></span><span class="card-title" data-lang="th" lang="th" hidden><b>ICEFALL</b><span class="card-meta"><span>ผู้เล่น: 3–5 คน</span></span></span><span class="card-title" data-lang="id" lang="id" hidden><b>ICEFALL</b><span class="card-meta"><span>Pemain: 3–5</span></span></span><span class="card-title" data-lang="vi" lang="vi" hidden><b>ICEFALL</b><span class="card-meta"><span>Người chơi: 3–5</span></span></span><span class="card-langs"><span data-lang="ja" lang="ja">日本語</span><span data-lang="en" lang="en">English</span><span data-lang="de" lang="de">Deutsch</span><span data-lang="fr" lang="fr">Français</span><span data-lang="es" lang="es">Español</span><span data-lang="it" lang="it">Italiano</span><span data-lang="zh-Hant" lang="zh-Hant">繁體中文</span><span data-lang="zh-Hans" lang="zh-Hans">简体中文</span><span data-lang="ko" lang="ko">한국어</span><span data-lang="nl" lang="nl">Nederlands</span><span data-lang="pl" lang="pl">Polski</span><span data-lang="pt-BR" lang="pt-BR">Português (Brasil)</span><span data-lang="ru" lang="ru">Русский</span><span data-lang="cs" lang="cs">Čeština</span><span data-lang="hu" lang="hu">Magyar</span><span data-lang="th" lang="th">ไทย</span><span data-lang="id" lang="id">Bahasa Indonesia</span><span data-lang="vi" lang="vi">Tiếng Việt</span></span></span></a></div>
+</main>
+<script>
+(function(){
+  var cards=Array.prototype.slice.call(document.querySelectorAll('.card'));
+  var langItems=Array.prototype.slice.call(document.querySelectorAll('#menu-lang button'));
+  var langs=langItems.map(function(b){return b.getAttribute('data-lang')});
+  var src=document.documentElement.getAttribute('data-source')||langs[0];
+  var btnLang=document.getElementById('btn-lang');
+  var headings=Array.prototype.slice.call(document.querySelectorAll('h1[data-lang]'));
+
+var KEY='rulebook:lang';
+function pick(){
+  var q=new URLSearchParams(location.search).get('lang');
+  if(q&&langs.indexOf(q)>=0)return q;
+  try{var s=localStorage.getItem(KEY);if(s&&langs.indexOf(s)>=0)return s;}catch(e){}
+  var nav=navigator.languages||[navigator.language||''];
+  for(var i=0;i<nav.length;i++){
+    var l=String(nav[i]||'');if(langs.indexOf(l)>=0)return l;
+    var base=l.split('-')[0];
+    if(base==='zh'){var hant=/tw|hk|mo|hant/i.test(l)?'zh-Hant':'zh-Hans';if(langs.indexOf(hant)>=0)return hant;}
+    for(var j=0;j<langs.length;j++)if(langs[j].split('-')[0]===base)return langs[j];
+  }
+  return langs.indexOf(src)>=0?src:langs[0];
+}
+
+  function show(lang){
+    langItems.forEach(function(b){var on=b.getAttribute('data-lang')===lang;b.setAttribute('aria-current',String(on));if(on)btnLang.textContent=b.textContent;});
+    headings.forEach(function(h){h.hidden=h.getAttribute('data-lang')!==lang;});
+    cards.forEach(function(c){
+      var titles=Array.prototype.slice.call(c.querySelectorAll('.card-title'));
+      var has=titles.some(function(t){return t.getAttribute('data-lang')===lang;});
+      var use=has?lang:(c.getAttribute('data-source')||titles[0].getAttribute('data-lang'));
+      titles.forEach(function(t){t.hidden=t.getAttribute('data-lang')!==use;});
+      Array.prototype.forEach.call(c.querySelectorAll('.card-langs span'),function(s){s.setAttribute('aria-current',String(s.getAttribute('data-lang')===lang));});
+      c.setAttribute('href',c.getAttribute('data-slug')+'/'+(has?'?lang='+encodeURIComponent(lang):''));
+    });
+    document.documentElement.lang=lang;
+    try{localStorage.setItem(KEY,lang);}catch(e){}
+  }
+  var dds=Array.prototype.slice.call(document.querySelectorAll('.dd'));
+  function closeAll(){dds.forEach(function(d){d.querySelector('button').setAttribute('aria-expanded','false');d.querySelector('.dd-menu').hidden=true;});}
+  dds.forEach(function(d){
+    var btn=d.querySelector('button'),menu=d.querySelector('.dd-menu');
+    btn.addEventListener('click',function(e){e.stopPropagation();var open=btn.getAttribute('aria-expanded')==='true';closeAll();if(!open){btn.setAttribute('aria-expanded','true');menu.hidden=false;var f=menu.querySelector('button');if(f)f.focus();}});
+    menu.addEventListener('click',function(e){e.stopPropagation();});
+  });
+  document.addEventListener('click',closeAll);
+  document.addEventListener('keydown',function(e){if(e.key==='Escape')closeAll();});
+  langItems.forEach(function(b){b.addEventListener('click',function(){closeAll();show(b.getAttribute('data-lang'));});});
+  if(langs.length)show(pick());
+})();
+</script>
+</body>
+</html>
